@@ -8,6 +8,7 @@ function ProductList() {
   const [showCart, setShowCart] = useState(false);
   const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
   const [addedToCart, setAddedToCart] = useState({});
+  const [numberOfItems, setNumberOfItems] = useState(0);
   const dispatch = useDispatch();
 
   const plantsArray = [
@@ -282,6 +283,10 @@ function ProductList() {
     setShowCart(false); // Hide the cart when navigating to About Us
   };
 
+  const totalItems = (num) => {
+      setNumberOfItems((prevState) => prevState + num);
+  };
+
   const handleContinueShopping = (e) => {
     e.preventDefault();
     setShowCart(false);
@@ -293,6 +298,7 @@ function ProductList() {
       ...prevState,
       [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
     }));
+    totalItems(1);
   };
 
   return (
@@ -319,9 +325,10 @@ function ProductList() {
               Plants
             </a>
           </div>
+
           <div>
-            {' '}
             <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}>
+            <div className="cart_quantity_count">{numberOfItems}</div>
               <h1 className="cart">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -329,7 +336,10 @@ function ProductList() {
                   id="IconChangeColor"
                   height="68"
                   width="68">
-                  <rect width="156" height="156" fill="none"></rect>
+                  const [numberOfItems, setNumberOfItems] = useState(0);
+                  <rect width="156" height="156" fill="none">
+                    v
+                  </rect>
                   <circle cx="80" cy="216" r="12"></circle>
                   <circle cx="184" cy="216" r="12"></circle>
                   <path
@@ -378,7 +388,10 @@ function ProductList() {
           ))}
         </div>
       ) : (
-        <CartItem onContinueShopping={handleContinueShopping} />
+        <CartItem
+          onContinueShopping={handleContinueShopping}
+          setNumberOfItems={totalItems}
+        />
       )}
     </div>
   );
