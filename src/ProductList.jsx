@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import './ProductList.css';
 import CartItem from './CartItem';
+import { addItem } from './CartSlice';
+
 function ProductList() {
   const [showCart, setShowCart] = useState(false);
   const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
+  const [addedToCart, setAddedToCart] = useState({});
+  const dispatch = useDispatch();
 
   const plantsArray = [
     {
@@ -281,6 +286,15 @@ function ProductList() {
     e.preventDefault();
     setShowCart(false);
   };
+
+  const handleAddToCart = (product) => {
+    dispatch(addItem(product));
+    setAddedToCart((prevState) => ({
+      ...prevState,
+      [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
+    }));
+  };
+
   return (
     <div>
       <div className="navbar" style={styleObj}>
@@ -292,7 +306,7 @@ function ProductList() {
             />
             <a href="/" style={{ textDecoration: 'none' }}>
               <div>
-                <h3 style={{ color: 'white' }}>Paradise Nursery1</h3>
+                <h3 style={{ color: 'white' }}>Paradise Nursery</h3>
                 <i style={{ color: 'white' }}>Where Green Meets Serenity</i>
               </div>
             </a>
@@ -348,7 +362,10 @@ function ProductList() {
                       alt={plant.name}
                     />
                     <div className="product-title">{plant.name}</div>
-                    {/*Similarly like the above plant.name show other details like description and cost*/}
+                    <div className="product-description">
+                      {plant.description}
+                    </div>
+                    <div className="product-price">{plant.cost}</div>
                     <button
                       className="product-button"
                       onClick={() => handleAddToCart(plant)}>
