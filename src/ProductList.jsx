@@ -284,7 +284,7 @@ function ProductList() {
   };
 
   const totalItems = (num) => {
-      setNumberOfItems((prevState) => prevState + num);
+    setNumberOfItems((prevState) => prevState + num);
   };
 
   const handleContinueShopping = (e) => {
@@ -299,6 +299,12 @@ function ProductList() {
       [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
     }));
     totalItems(1);
+  };
+  const removeFromCart = (product) => {
+    setAddedToCart((prevState) => ({
+      ...prevState,
+      [product.name]: false, // Set the product name as key and value as true to indicate it's added to cart
+    }));
   };
 
   return (
@@ -328,7 +334,7 @@ function ProductList() {
 
           <div>
             <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}>
-            <div className="cart_quantity_count">{numberOfItems}</div>
+              <div className="cart_quantity_count">{numberOfItems}</div>
               <h1 className="cart">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -377,9 +383,17 @@ function ProductList() {
                     </div>
                     <div className="product-price">{plant.cost}</div>
                     <button
-                      className="product-button"
-                      onClick={() => handleAddToCart(plant)}>
-                      Add to Cart
+                      className={`product-button${
+                        addedToCart[plant.name] ? ' added-to-cart' : ''
+                      }`}
+                      onClick={
+                        !addedToCart[plant.name]
+                          ? () => handleAddToCart(plant)
+                          : undefined
+                      }>
+                      {addedToCart[plant.name]
+                        ? 'Added to Cart'
+                        : 'Add to Cart'}
                     </button>
                   </div>
                 ))}
@@ -391,6 +405,7 @@ function ProductList() {
         <CartItem
           onContinueShopping={handleContinueShopping}
           setNumberOfItems={totalItems}
+          removeAddedToCard={removeFromCart}
         />
       )}
     </div>
