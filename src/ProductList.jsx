@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './ProductList.css';
 import CartItem from './CartItem';
+import AboutUs from './AboutUs';
 import { addItem } from './CartSlice';
 
 function ProductList() {
   const [showCart, setShowCart] = useState(false);
   const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
+  const [showAboutUs, setShowAboutUs] = useState(false);
   const [addedToCart, setAddedToCart] = useState({});
   const [numberOfItems, setNumberOfItems] = useState(0);
   const dispatch = useDispatch();
@@ -281,6 +283,13 @@ function ProductList() {
     e.preventDefault();
     setShowPlants(true); // Set showAboutUs to true when "About Us" link is clicked
     setShowCart(false); // Hide the cart when navigating to About Us
+    setShowAboutUs(false);
+  };
+  const handleAboutUsClick = (e) => {
+    e.preventDefault();
+    setShowPlants(false); // Set showAboutUs to true when "About Us" link is clicked
+    setShowCart(false); // Hide the cart when navigating to About Us
+    setShowAboutUs(true);
   };
 
   const totalItems = (num) => {
@@ -342,10 +351,7 @@ function ProductList() {
                   id="IconChangeColor"
                   height="68"
                   width="68">
-                  const [numberOfItems, setNumberOfItems] = useState(0);
-                  <rect width="156" height="156" fill="none">
-                    v
-                  </rect>
+                  <rect width="156" height="156" fill="none"></rect>
                   <circle cx="80" cy="216" r="12"></circle>
                   <circle cx="184" cy="216" r="12"></circle>
                   <path
@@ -406,6 +412,7 @@ function ProductList() {
           onContinueShopping={handleContinueShopping}
           setNumberOfItems={totalItems}
           removeAddedToCard={removeFromCart}
+          totalAmount={numberOfItems}
         />
       )}
     </div>

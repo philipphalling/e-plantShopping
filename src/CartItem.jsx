@@ -20,6 +20,14 @@ const CartItem = ({
     return totalAmount;
   };
 
+  const calculateTotalNumber = () => {
+    let totalNumber = 0;
+    cart.forEach((item) => {
+      totalNumber += item.quantity;
+    });
+    return totalNumber;
+  };
+
   const handleContinueShopping = (e) => {
     e.preventDefault();
     onContinueShopping(e);
@@ -59,6 +67,9 @@ const CartItem = ({
     <div className="cart-container">
       <h2 style={{ color: 'black' }}>
         Total Cart Amount: ${calculateTotalAmount()}
+      </h2>
+      <h2 style={{ color: 'black' }}>
+        Total Number of Plants: {calculateTotalNumber()}
       </h2>
       <div>
         {cart.map((item) => (
